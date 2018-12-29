@@ -1,0 +1,14 @@
+{
+  "name": "transfer_system",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Abhinav Krishna C K",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
