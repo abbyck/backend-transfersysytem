@@ -1,5 +1,5 @@
 const router = require('express').Router();
-
+const Station = require('../../models/stations');
 const User = require('../../models/user');
 
 // Auth check
@@ -15,7 +15,7 @@ router.post('/', CheckAuth, (req, res) => {
         op2: req.body.stat2,
         op3: req.body.stat3,
     };
-    // TODO Done
+    //     // TODO Done
     var query = { penno: req.user.penno };
     var genTrans = {
         genTransfer: {
@@ -25,16 +25,36 @@ router.post('/', CheckAuth, (req, res) => {
         },
     };
 
-    User.findOneAndUpdate(query, genTrans, { upsert: true }, function(
-        err,
-        doc
-    ) {
-        if (err) return res.status(500).json({ error: err });
-        return res.status(201).json({
-            message: 'Updated station details',
-            stations: opts,
+    User.find(query)
+        .exec()
+        .then(user => {
+            User.findOneAndUpdate(query, genTrans, { upsert: true }, function(
+                err,
+                doc
+            ) {
+                if (err) return res.status(500).json({ error: err });
+                return user;
+            });
+        })
+        .then(user => {
+            console.log(req.user.designation);
+            var query = {};
+            query[req.user.designation] = -1;
+            Station.findOneAndUpdate(
+                { statCode: req.user.currentStation },
+                { $inc: query },
+                { upsert: true },
+                function(err, doc) {
+                    if (err) return res.status(500).json({ error: err });
+                    return res.status(201).json({
+                        message: 'Updated station details',
+                        stations: opts,
+                    });
+                }
+            );
+        })
+        .catch(err => {
+            if (err) return res.status(500).json({ error: err });
         });
-    });
 });
-
 module.exports = router;

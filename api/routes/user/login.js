@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const User = require('../../models/user');
 const jwt = require('jsonwebtoken');
@@ -10,7 +9,8 @@ router.post('/', (req, res, next) => {
         .then(user => {
             if (user.length < 1) {
                 return res.status(401).json({
-                    message: 'Auth failed',
+                    message:
+                        'Incorrect PEN number or Password, \nTry again with correct credentials',
                 });
             }
             bcrypt.compare(
@@ -30,6 +30,8 @@ router.post('/', (req, res, next) => {
                                 penno: user[0].penno,
                                 UserId: user[0]._id,
                                 isFirstTime: user[0].firsttime,
+                                currentStation: user[0].currentStation,
+                                designation: user[0].designation,
                             },
                             process.env.JWT_KEY,
                             {
@@ -37,12 +39,13 @@ router.post('/', (req, res, next) => {
                             }
                         );
                         return res.status(200).json({
-                            message: 'Auth success',
+                            message: 'Authentication Successful',
                             token: token,
                         });
                     }
                     return res.status(401).json({
-                        message: 'Auth failed',
+                        message:
+                            'Incorrect PEN number or Password, \nTry again with correct credentials',
                     });
                 }
             );

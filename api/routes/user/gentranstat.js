@@ -1,8 +1,8 @@
 const router = require('express').Router();
-const User = require('../../models/user');
 const moment = require('moment');
+const User = require('../../models/user');
 
-// Auth
+// Auth check
 const CheckAuth = require('../../middleware/check-auth');
 
 router.get('/', CheckAuth, (req, res) => {
@@ -28,30 +28,13 @@ router.get('/', CheckAuth, (req, res) => {
             var b = moment();
 
             var years = b.diff(a, 'year');
+            console.log(years);
             if (years >= 3) {
                 return res.status(200).json({
-                    penno: result.penno,
-                    name: result.name,
-                    designation: result.designation,
-                    joinDate: result.joinDate,
-                    currentStation: result.currentStation,
-                    prevStation: result.prevStation,
-                    lastTransferDate: result.lastTransferDate,
-                    reqTransfer: result.reqTransfer,
-                    genTransfer: result.genTransfer,
                     genTransStatus: true,
                 });
             } else {
                 return res.status(200).json({
-                    penno: result.penno,
-                    name: result.name,
-                    designation: result.designation,
-                    joinDate: result.joinDate,
-                    currentStation: result.currentStation,
-                    prevStation: result.prevStation,
-                    lastTransferDate: result.lastTransferDate,
-                    reqTransfer: result.reqTransfer,
-                    genTransfer: result.genTransfer,
                     genTransStatus: false,
                 });
             }

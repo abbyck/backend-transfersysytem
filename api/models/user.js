@@ -5,24 +5,27 @@ const UserSchema = mongoose.Schema({
     penno: { type: String, required: true, unique: true },
     name: { type: String, required: true },
     password: { type: String, required: true },
-    designation: { type: Number, required: true },
+    designation: { type: String, required: true },
+    currentStation: Number,
     prevStation: {
-        first: String,
-        second: String,
-        Third: String,
+        first: Number,
+        second: Number,
+        Third: Number,
     },
     lastTransferDate: Date,
+    joinDate: Date,
     reqTransfer: {
-        op1: String,
-        op2: String,
-        op3: String,
+        op1: Number,
+        op2: Number,
+        op3: Number,
     },
     genTransfer: {
-        op1: String,
-        op2: String,
-        op3: String,
+        op1: Number,
+        op2: Number,
+        op3: Number,
     },
     firsttime: { type: Boolean, default: true },
+    allotedStation: String,
 });
 
 module.exports = mongoose.model('User', UserSchema);

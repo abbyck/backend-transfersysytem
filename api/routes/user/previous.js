@@ -11,10 +11,12 @@ router.get('/', (req, res) => {
 
 router.post('/', CheckAuth, (req, res) => {
     const prev = {
+        current: req.body.current,
         stat1: req.body.stat1,
         stat2: req.body.stat2,
         stat3: req.body.stat3,
-        date: req.body.date,
+        lastdate: req.body.lastdate,
+        joindate: req.body.joindate,
     };
     // TODO DONE
     var query = { penno: req.user.penno };
@@ -24,7 +26,9 @@ router.post('/', CheckAuth, (req, res) => {
             second: prev.stat2,
             Third: prev.stat3,
         },
-        lastTransferDate: prev.date,
+        currentStation: prev.current,
+        joinDate: prev.joindate,
+        lastTransferDate: prev.lastdate,
         firsttime: false,
     };
 
