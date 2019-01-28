@@ -16,6 +16,8 @@ router.use('/profile', require('./profile'));
 router.use('/setpassword', require('./setpassword'));
 // Station route for getting and posting update
 router.use('/station', require('./station'));
+// Avialble station list
+router.use('/avilablestations', require('./availablestations'));
 // Request transfer
 router.use('/reqtransfer', require('./reqtransfer'));
 // Genral Transfer stats

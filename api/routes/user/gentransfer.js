@@ -39,7 +39,7 @@ router.post('/', CheckAuth, (req, res) => {
         .then(user => {
             console.log(req.user.designation);
             var query = {};
-            query[req.user.designation] = -1;
+            query[req.user.designation] = +1;
             Station.findOneAndUpdate(
                 { statCode: req.user.currentStation },
                 { $inc: query },
