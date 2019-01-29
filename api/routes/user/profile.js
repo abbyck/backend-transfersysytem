@@ -14,8 +14,7 @@ router.get('/', CheckAuth, (req, res) => {
         stations.forEach(function(station) {
             stationMap[station.statCode] = station;
         });
-        console.log(stationMap['123'].name);
-        console.log(stationMap);
+        // console.log(stationMap);
         User.findOne({ penno: req.user.penno }, function(err, result) {
             if (err) {
                 return res.status(500).json({ error: err });
@@ -42,11 +41,15 @@ router.get('/', CheckAuth, (req, res) => {
                 if (years >= 3) {
                     genstats = true;
                 }
-                var opt1, opt2, opt3;
+
+                var opt1 = '',
+                    opt2 = '',
+                    opt3 = '';
+
                 if (
                     !result.reqTransfer.op1 &&
-                    !result.reqTransfer.op1 &&
-                    !result.reqTransfer.op1
+                    !result.reqTransfer.op2 &&
+                    !result.reqTransfer.op3
                 ) {
                     opt1 = '';
                     opt2 = '';
@@ -56,20 +59,23 @@ router.get('/', CheckAuth, (req, res) => {
                     opt2 = stationMap[result.reqTransfer.op2].name;
                     opt3 = stationMap[result.reqTransfer.op3].name;
                 }
-                var opa1, opa2, opa3;
+                var opa1 = '',
+                    opa2 = '',
+                    opa3 = '';
                 if (
                     !result.genTransfer.op1 &&
-                    !result.genTransfer.op1 &&
-                    !result.genTransfer.op1
+                    !result.genTransfer.op2 &&
+                    !result.genTransfer.op3
                 ) {
-                    opt1 = '';
-                    opt2 = '';
-                    opt3 = '';
+                    opa1 = '';
+                    opa2 = '';
+                    opa3 = '';
                 } else {
-                    opt1 = stationMap[result.genTransfer.op1].name;
-                    opt2 = stationMap[result.genTransfer.op2].name;
-                    opt3 = stationMap[result.genTransfer.op3].name;
+                    opa1 = stationMap[result.genTransfer.op1].name;
+                    opa2 = stationMap[result.genTransfer.op2].name;
+                    opa3 = stationMap[result.genTransfer.op3].name;
                 }
+
                 return res.status(200).json({
                     penno: result.penno,
                     name: result.name,
