@@ -42,6 +42,34 @@ router.get('/', CheckAuth, (req, res) => {
                 if (years >= 3) {
                     genstats = true;
                 }
+                var opt1, opt2, opt3;
+                if (
+                    !result.reqTransfer.op1 &&
+                    !result.reqTransfer.op1 &&
+                    !result.reqTransfer.op1
+                ) {
+                    opt1 = '';
+                    opt2 = '';
+                    opt3 = '';
+                } else {
+                    opt1 = stationMap[result.reqTransfer.op1].name;
+                    opt2 = stationMap[result.reqTransfer.op2].name;
+                    opt3 = stationMap[result.reqTransfer.op3].name;
+                }
+                var opa1, opa2, opa3;
+                if (
+                    !result.genTransfer.op1 &&
+                    !result.genTransfer.op1 &&
+                    !result.genTransfer.op1
+                ) {
+                    opt1 = '';
+                    opt2 = '';
+                    opt3 = '';
+                } else {
+                    opt1 = stationMap[result.genTransfer.op1].name;
+                    opt2 = stationMap[result.genTransfer.op2].name;
+                    opt3 = stationMap[result.genTransfer.op3].name;
+                }
                 return res.status(200).json({
                     penno: result.penno,
                     name: result.name,
@@ -55,14 +83,14 @@ router.get('/', CheckAuth, (req, res) => {
                     },
                     lastTransferDate: result.lastTransferDate,
                     reqTransfer: {
-                        op1: stationMap[result.reqTransfer.op1].name,
-                        op2: stationMap[result.reqTransfer.op2].name,
-                        op3: stationMap[result.reqTransfer.op3].name,
+                        op1: opt1,
+                        op2: opt2,
+                        op3: opt3,
                     },
                     genTransfer: {
-                        op1: stationMap[result.genTransfer.op1].name,
-                        op2: stationMap[result.genTransfer.op2].name,
-                        op3: stationMap[result.genTransfer.op3].name,
+                        op1: stationMap[result.genTransfer.op1].name || null,
+                        op2: stationMap[result.genTransfer.op2].name || null,
+                        op3: stationMap[result.genTransfer.op3].name || null,
                     },
                     genTransStatus: genstats,
                 });
