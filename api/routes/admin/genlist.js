@@ -1,8 +1,9 @@
 const router = require('express').Router();
 const User = require('../../models/user');
 
-router.get('/', (req, res) => {
-    User.find({ designation: req.body.designation })
+router.get('/:designation', (req, res) => {
+    console.log(req.params.designation);
+    User.find({ designation: req.params.designation })
         .select(
             'name penno designation currentStation prevStation lastTransferDate joinDate reqTransfer genTransfer submitDate'
         )

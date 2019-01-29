@@ -6,26 +6,27 @@ const Station = require('../../models/stations');
 const CheckAuth = require('../../middleware/check-auth');
 
 router.get('/', (req, res) => {
+    console.log(req.query);
     Promise.all([
-        Station.findOne({ statCode: req.body.code1 }),
-        Station.findOne({ statCode: req.body.code2 }),
-        Station.findOne({ statCode: req.body.code3 }),
+        Station.findOne({ statCode: req.query.code1 }),
+        Station.findOne({ statCode: req.query.code2 }),
+        Station.findOne({ statCode: req.query.code3 }),
     ]).then(([stat1, stat2, stat3]) => {
         res.status(200).json({
             first: {
                 name: stat1.name,
                 statCode: stat1.statCode,
-                vacancy: stat1[req.body.designation],
+                vacancy: stat1[req.query.designation],
             },
             second: {
                 name: stat2.name,
                 statCode: stat2.statCode,
-                vacancy: stat2[req.body.designation],
+                vacancy: stat2[req.query.designation],
             },
             third: {
                 name: stat3.name,
                 statCode: stat3.statCode,
-                vacancy: stat3[req.body.designation],
+                vacancy: stat3[req.query.designation],
             },
         });
     });
