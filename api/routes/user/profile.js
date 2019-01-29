@@ -88,9 +88,9 @@ router.get('/', CheckAuth, (req, res) => {
                         op3: opt3,
                     },
                     genTransfer: {
-                        op1: stationMap[result.genTransfer.op1].name || null,
-                        op2: stationMap[result.genTransfer.op2].name || null,
-                        op3: stationMap[result.genTransfer.op3].name || null,
+                        op1: opa1,
+                        op2: opa2,
+                        op3: opa3,
                     },
                     genTransStatus: genstats,
                 });
