@@ -6,11 +6,26 @@ const Station = require('../../models/stations');
 const CheckAuth = require('../../middleware/check-auth');
 
 router.get('/', (req, res) => {
-    res.send('Hello from station.js');
+    Station.find({}, function(err, stations) {
+        var stationMap = {};
+
+        stations.forEach(function(station) {
+            stationMap[station.statCode] = station;
+        });
+        if (err) {
+            return res.status(500).json({
+                error: err,
+            });
+        }
+
+        res.status(200).json({
+            stations: stationMap,
+        });
+    });
 });
 
-// TODO add checkauth
-router.post('/', (req, res, next) => {
+// TODO add checkauth Done
+router.post('/', CheckAuth, (req, res, next) => {
     Station.find({ statCode: req.body.statCode })
         .exec()
         .then(station => {

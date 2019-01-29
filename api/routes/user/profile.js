@@ -12,7 +12,6 @@ router.get('/', CheckAuth, (req, res) => {
         }
         if (result) {
             var date = new Date('' + result.lastTransferDate);
-
             var year = date.getFullYear();
             var month = date.getMonth() + 1;
             var dt = date.getDate();
@@ -28,33 +27,24 @@ router.get('/', CheckAuth, (req, res) => {
             var b = moment();
 
             var years = b.diff(a, 'year');
+
+            var genstats = false;
             if (years >= 3) {
-                return res.status(200).json({
-                    penno: result.penno,
-                    name: result.name,
-                    designation: result.designation,
-                    joinDate: result.joinDate,
-                    currentStation: result.currentStation,
-                    prevStation: result.prevStation,
-                    lastTransferDate: result.lastTransferDate,
-                    reqTransfer: result.reqTransfer,
-                    genTransfer: result.genTransfer,
-                    genTransStatus: true,
-                });
-            } else {
-                return res.status(200).json({
-                    penno: result.penno,
-                    name: result.name,
-                    designation: result.designation,
-                    joinDate: result.joinDate,
-                    currentStation: result.currentStation,
-                    prevStation: result.prevStation,
-                    lastTransferDate: result.lastTransferDate,
-                    reqTransfer: result.reqTransfer,
-                    genTransfer: result.genTransfer,
-                    genTransStatus: false,
-                });
+                genstats = true;
             }
+            User.find({});
+            return res.status(200).json({
+                penno: result.penno,
+                name: result.name,
+                designation: result.designation,
+                joinDate: result.joinDate,
+                currentStation: result.currentStation,
+                prevStation: result.prevStation,
+                lastTransferDate: result.lastTransferDate,
+                reqTransfer: result.reqTransfer,
+                genTransfer: result.genTransfer,
+                genTransStatus: genstats,
+            });
         }
         res.status(404).json({
             error: {

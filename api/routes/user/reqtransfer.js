@@ -1,5 +1,5 @@
 const router = require('express').Router();
-
+const Station = require('../../models/stations');
 const User = require('../../models/user');
 
 // Auth check
@@ -32,7 +32,10 @@ router.post('/', CheckAuth, (req, res) => {
                 err,
                 doc
             ) {
-                if (err) return res.status(500).json({ error: err });
+                if (err)
+                    return res
+                        .status(500)
+                        .json({ error: "couldn't find user", err });
                 return user;
             });
         })
@@ -45,7 +48,10 @@ router.post('/', CheckAuth, (req, res) => {
                 { $inc: query },
                 { upsert: true },
                 function(err, doc) {
-                    if (err) return res.status(500).json({ error: err });
+                    if (err)
+                        return res
+                            .status(500)
+                            .json({ error: "couldn't update station", err });
                     return res.status(201).json({
                         message: 'Updated station details',
                         stations: opts,
@@ -54,7 +60,7 @@ router.post('/', CheckAuth, (req, res) => {
             );
         })
         .catch(err => {
-            if (err) return res.status(500).json({ error: err });
+            if (err) return res.status(500).json({ error: 'other error', err });
         });
 });
 
