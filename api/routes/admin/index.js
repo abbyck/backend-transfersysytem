@@ -16,5 +16,7 @@ router.use('/userlist', require('./userlist'));
 router.use('/genlist', require('./genlist'));
 // LIST all transfer requested users
 router.use('/reqlist', require('./reqlist'));
+// LIST station vacencies on request(of 3)
+router.use('/returnstation', require('./returnstation'));
 
 module.exports = router;

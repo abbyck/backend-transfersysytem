@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const User = require('../../models/user');
-const _ = require('lodash');
 
 router.get('/', (req, res) => {
     User.find({ designation: req.body.designation })
