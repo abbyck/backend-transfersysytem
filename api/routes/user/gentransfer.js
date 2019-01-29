@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Station = require('../../models/stations');
 const User = require('../../models/user');
+const moment = require('moment');
 
 // Auth check
 const CheckAuth = require('../../middleware/check-auth');
@@ -10,6 +11,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', CheckAuth, (req, res) => {
+    var CurrentDate = moment().toISOString();
     const opts = {
         op1: req.body.stat1,
         op2: req.body.stat2,
@@ -23,6 +25,7 @@ router.post('/', CheckAuth, (req, res) => {
             op2: opts.op2,
             op3: opts.op3,
         },
+        submitDate: CurrentDate,
     };
 
     User.find(query)

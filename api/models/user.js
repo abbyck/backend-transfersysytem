@@ -24,6 +24,7 @@ const UserSchema = mongoose.Schema({
         op2: Number,
         op3: Number,
     },
+    submitDate: Date,
     firsttime: { type: Boolean, default: true },
     allotedStation: String,
 });

@@ -4,7 +4,9 @@ var router = require('express').Router();
 router.use('/signup', require('./signup'));
 // Login
 router.use('/login', require('./login'));
-// Station route for adding deleting stations
+// SET PASSWORD
+router.use('/setpassword', require('./setpassword'));
+// Station route for adding deleting station
 router.use('/station', require('./station'));
 // Userlist get/post/delete
 router.use('/userlist', require('./userlist'));
