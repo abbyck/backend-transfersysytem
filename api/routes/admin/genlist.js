@@ -3,10 +3,11 @@ const User = require('../../models/user');
 const _ = require('lodash');
 
 router.get('/', (req, res) => {
-    User.find({})
+    User.find({ designation: req.body.designation })
         .select(
-            'name penno designation currentStation prevStation lastTransferDate joinDate reqTransfer genTransfer'
+            'name penno designation currentStation prevStation lastTransferDate joinDate reqTransfer genTransfer submitDate'
         )
+        .sort({ joinDate: 'desc' })
         .then(users => {
             for (var i = 0; i < users.length; i++) {
                 if (
@@ -14,7 +15,6 @@ router.get('/', (req, res) => {
                     !users[i].genTransfer.op2 ||
                     !users[i].genTransfer.op3
                 ) {
-                    console.log(users[i].genTransfer);
                     delete users[i];
                 }
             }

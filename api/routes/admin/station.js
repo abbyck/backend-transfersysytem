@@ -38,9 +38,9 @@ router.post('/', CheckAuth, (req, res, next) => {
                     _id: new mongoose.Types.ObjectId(),
                     statCode: req.body.statCode,
                     name: req.body.name,
-                    a1: req.body.first,
-                    a2: req.body.second,
-                    a3: req.body.third,
+                    a1: req.body.a1,
+                    a2: req.body.a2,
+                    a3: req.body.a3,
                 });
                 station.save().then(result => {
                     console.log(result);

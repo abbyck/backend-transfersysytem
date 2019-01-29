@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', CheckAuth, (req, res) => {
-    User.find({ penno: req.body.penno })
+    User.find({ penno: req.user.penno })
         .exec()
         .then(user => {
             if (user) {

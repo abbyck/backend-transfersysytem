@@ -1,53 +1,47 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const Admin = require('../../models/admin');
-const jwt = require('jsonwebtoken');
+const CheckAuth = require('../../middleware/check-auth');
 
-router.post('/', (req, res, next) => {
+router.get('/', (req, res) => {
+    res.send('Hello from setpassword');
+});
+
+router.post('/', CheckAuth, (req, res) => {
+    console.log(req.user.penno);
     Admin.find({ penno: req.body.penno })
         .exec()
         .then(admin => {
-            if (admin.length < 1) {
-                return res.status(401).json({
-                    message:
-                        'Incorrect PEN number or Password, \nTry again with correct credentials',
-                });
-            }
-            bcrypt.compare(
-                req.body.password,
-                admin[0].password,
-                (err, result) => {
+            if (admin) {
+                bcrypt.hash(req.body.password, 10, (err, hash) => {
                     if (err) {
-                        console.log(err);
-                        res.status(500).json({
+                        return res.status(500).json({
                             error: err,
                         });
-                    }
-
-                    if (result) {
-                        const token = jwt.sign(
-                            {
-                                penno: admin[0].penno,
-                                UserId: admin[0]._id,
-                                privilege: admin[0].privilege,
-                                isFirstTime: admin[0].firsttime,
-                            },
-                            process.env.JWT_KEY,
-                            {
-                                expiresIn: '1h',
+                    } // end if
+                    else {
+                        var query = { penno: req.user.penno };
+                        var newPass = { password: hash };
+                        console.log(hash);
+                        Admin.findOneAndUpdate(
+                            query,
+                            newPass,
+                            { upsert: true },
+                            function(err, doc) {
+                                if (err)
+                                    return res.status(500).json({ error: err });
+                                return res.status(201).json({
+                                    message: 'Updated Password',
+                                });
                             }
                         );
-                        return res.status(200).json({
-                            message: 'Authentication Successful',
-                            token: token,
-                        });
-                    }
-                    return res.status(401).json({
-                        message:
-                            'Incorrect PEN number or Password, \nTry again with correct credentials',
-                    });
-                }
-            );
+                    } //end else
+                }); //end hash
+            } else {
+                return res.status(422).json({
+                    message: 'User does not exist',
+                });
+            }
         })
         .catch(err => {
             console.log(err);
