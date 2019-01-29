@@ -1,14 +1,13 @@
 const router = require('express').Router();
 const User = require('../../models/user');
 const Station = require('../../models/stations');
-
+const moment = require('moment');
 // Auth check
 const CheckAuth = require('../../middleware/check-auth');
 
 router.post('/', CheckAuth, (req, res) => {
     console.log(req.body);
     User.findOne({ penno: req.body.penno })
-        .exec()
         .then(user => {
             var query = { penno: req.body.penno };
             var CurrentDate = moment().toISOString();
@@ -20,11 +19,15 @@ router.post('/', CheckAuth, (req, res) => {
                 currentStation: req.body.allotedStation,
                 submitDate: '',
             };
+            console.log('reached');
             User.findOneAndUpdate(query, update, { upsert: true }, function(
                 err,
                 doc
             ) {
-                if (err) return res.status(500).json({ error: err });
+                if (err)
+                    return res
+                        .status(500)
+                        .json({ error: err, reason: 'Userfind' });
                 return update;
             });
         })
@@ -37,7 +40,10 @@ router.post('/', CheckAuth, (req, res) => {
                 { $inc: query },
                 { upsert: true },
                 function(err, doc) {
-                    if (err) return res.status(500).json({ error: err });
+                    if (err)
+                        return res
+                            .status(500)
+                            .json({ error: err, reason: 'Stationfind' });
                     return res.status(201).json({
                         message: 'Alloted user',
                     });
@@ -47,6 +53,7 @@ router.post('/', CheckAuth, (req, res) => {
         .catch(err => {
             return res.status(500).json({
                 error: err,
+                reason: 'rest',
             });
         });
 });
