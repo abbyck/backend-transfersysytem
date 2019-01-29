@@ -8,11 +8,17 @@ const CheckAuth = require('../../middleware/check-auth');
 router.get('/', (req, res) => {
     console.log(req.query);
     Promise.all([
+        Station.findOne({ statCode: req.query.current }),
         Station.findOne({ statCode: req.query.code1 }),
         Station.findOne({ statCode: req.query.code2 }),
         Station.findOne({ statCode: req.query.code3 }),
-    ]).then(([stat1, stat2, stat3]) => {
+    ]).then(([curr, stat1, stat2, stat3]) => {
         res.status(200).json({
+            current: {
+                name: curr.name,
+                statCode: curr.statCode,
+                vacancy: curr[req.query.designation],
+            },
             first: {
                 name: stat1.name,
                 statCode: stat1.statCode,
