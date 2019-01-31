@@ -1,12 +1,13 @@
 const router = require('express').Router();
 const User = require('../../models/user');
-const _ = require('lodash');
 
-router.get('/', (req, res) => {
-    User.find({})
+router.get('/:designation', (req, res) => {
+    console.log(req.params.designation);
+    User.find({ designation: req.params.designation })
         .select(
-            'name penno designation currentStation prevStation lastTransferDate joinDate reqTransfer genTransfer'
+            'name penno designation currentStation prevStation lastTransferDate joinDate reqTransfer genTransfer submitDate'
         )
+        .sort({ joinDate: 'desc' })
         .then(users => {
             for (var i = 0; i < users.length; i++) {
                 if (
@@ -14,7 +15,6 @@ router.get('/', (req, res) => {
                     !users[i].reqTransfer.op2 ||
                     !users[i].reqTransfer.op3
                 ) {
-                    console.log(users[i].reqTransfer);
                     delete users[i];
                 }
             }
