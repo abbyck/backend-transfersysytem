@@ -9,6 +9,7 @@ router.post('/', CheckAuth, (req, res) => {
     console.log(req.body);
     User.findOne({ penno: req.body.penno })
         .then(user => {
+
             var query = { penno: req.body.penno };
             var CurrentDate = moment().toISOString();
             var update = {
@@ -18,6 +19,11 @@ router.post('/', CheckAuth, (req, res) => {
                 lastTransferDate: CurrentDate,
                 currentStation: req.body.allotedStation,
                 submitDate: '',
+                prevStation: {
+                    first:user.currentStation,
+                    second:user.prevStation[first],
+                    Third:,user.prevStation[second]
+                }
             };
             console.log('reached');
             User.findOneAndUpdate(query, update, { upsert: true }, function(
