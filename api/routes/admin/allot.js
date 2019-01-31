@@ -20,11 +20,10 @@ router.post('/', CheckAuth, (req, res) => {
                 submitDate: '',
                 prevStation: {
                     first: user.currentStation,
-                    second: user.prevStation[first],
-                    Third: user.prevStation[second],
+                    second: user.prevStation.first,
+                    Third: user.prevStation.second,
                 },
             };
-            console.log('reached');
             User.findOneAndUpdate(query, update, { upsert: true }, function(
                 err,
                 doc
