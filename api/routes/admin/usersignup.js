@@ -7,7 +7,8 @@ const Admin = require('../../models/admin');
 const CheckAuth = require('../../middleware/check-auth');
 
 router.delete('/:userId', CheckAuth, (req, res, next) => {
-    Admin.remove({ _id: req.params.userId })
+    console.log(req.params.userId);
+    Admin.findOneAndRemove({ _id: req.params.userId })
         .exec()
         .then(result => {
             console.log(result);
