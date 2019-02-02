@@ -12,7 +12,7 @@ router.get('/:penno', CheckAuth, (req, res, next) => {
         .exec()
         .then(admin => {
             if (admin === null) {
-                return res.status(200).json({
+                return res.status(404).json({
                     error: 'Not found',
                 });
             }
