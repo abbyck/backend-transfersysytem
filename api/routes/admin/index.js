@@ -18,6 +18,8 @@ router.use('/setpassword', require('./setpassword'));
 router.use('/station', require('./station'));
 // Firsttime set
 router.use('/firsttime', require('./firsttime'));
+// Delete
+router.use('/signup', require('./usersignup'));
 // Userlist get/post/delete
 router.use('/userlist', require('./userlist'));
 // LIST all genreal transfer requested users

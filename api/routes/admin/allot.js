@@ -39,8 +39,8 @@ router.post('/', CheckAuth, (req, res) => {
             console.log(req.body.designation);
             var query = {};
             query[req.body.designation] = -1;
-            Station.findOneAndUpdate(
-                { _id: req.body.allotedStation },
+            Station.findByIdAndUpdate(
+                req.body.allotedStation,
                 { $inc: query },
                 { upsert: true },
                 function(err, doc) {

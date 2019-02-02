@@ -6,49 +6,7 @@ const User = require('../../models/user');
 // Auth Check
 const CheckAuth = require('../../middleware/check-auth');
 
-router.post('/', CheckAuth, (req, res, next) => {
-    User.find({ penno: req.body.penno })
-        .exec()
-        .then(user => {
-            if (user.length >= 1) {
-                return res.status(422).json({
-                    message: 'User exists',
-                });
-            } else {
-                bcrypt.hash(req.body.password, 10, (err, hash) => {
-                    if (err) {
-                        return res.status(500).json({
-                            error: err,
-                        });
-                    } // end if
-                    else {
-                        const user = new User({
-                            _id: new mongoose.Types.ObjectId(),
-                            penno: req.body.penno,
-                            name: req.body.name,
-                            designation: req.body.designation,
-                            password: hash,
-                        });
-                        user.save()
-                            .then(result => {
-                                console.log(result);
-                                res.status(201).json({
-                                    message: 'User created',
-                                });
-                            })
-                            .catch(err => {
-                                console.log(err);
-                                res.status(500).json({
-                                    error: err,
-                                });
-                            });
-                    } //end else
-                }); //end hash
-            }
-        });
-}); //end post
-
-router.delete('/:userId', (req, res, next) => {
+router.delete('/:userId', CheckAuth, (req, res, next) => {
     User.remove({ _id: req.params.userId })
         .exec()
         .then(result => {
