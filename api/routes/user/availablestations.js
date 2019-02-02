@@ -10,7 +10,7 @@ router.get('/', CheckAuth, (req, res) => {
         var stationMap = {};
 
         stations.forEach(function(station) {
-            stationMap[station.statCode] = station;
+            stationMap[station._id] = station;
         });
         User.findOne({ penno: req.user.penno }, function(err, result) {
             if (err) {

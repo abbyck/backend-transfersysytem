@@ -7,12 +7,12 @@ const Station = require('../../models/stations');
 const CheckAuth = require('../../middleware/check-auth');
 
 router.get('/', CheckAuth, (req, res) => {
-    Station.find({}, 'statCode name -_id', function(err, stations) {
+    Station.find({}, 'statCode name _id', function(err, stations) {
         return stations;
     }).then(stations => {
         var stationMap = {};
         stations.forEach(function(station) {
-            stationMap[station.statCode] = station;
+            stationMap[station._id] = station;
         });
         // console.log(stationMap);
         User.findOne({ penno: req.user.penno }, function(err, result) {

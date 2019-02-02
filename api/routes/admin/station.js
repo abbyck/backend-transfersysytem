@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
         var stationMap = {};
 
         stations.forEach(function(station) {
-            stationMap[station.statCode] = station;
+            stationMap[station._id] = station;
         });
         if (err) {
             return res.status(500).json({
@@ -38,9 +38,12 @@ router.post('/', CheckAuth, (req, res, next) => {
                     _id: new mongoose.Types.ObjectId(),
                     statCode: req.body.statCode,
                     name: req.body.name,
-                    a1: req.body.a1,
-                    a2: req.body.a2,
-                    a3: req.body.a3,
+                    si: req.body.si,
+                    asi: req.body.asi,
+                    scpo: req.body.scpo,
+                    tscpo: req.body.tscpo,
+                    cpo: req.body.cpo,
+                    wcpo: req.body.wcpo,
                 });
                 station.save().then(result => {
                     console.log(result);
@@ -58,8 +61,30 @@ router.post('/', CheckAuth, (req, res, next) => {
         });
 }); //end post
 
-router.delete('/:statCode', (req, res, next) => {
-    Station.remove({ statCode: req.params.statCode })
+router.patch('/', CheckAuth, (req, res, next) => {
+    var query = { _id: req.body.statId };
+    var update = {
+        statCode: req.body.statCode,
+        name: req.body.name,
+        si: req.body.si,
+        asi: req.body.asi,
+        scpo: req.body.scpo,
+        tscpo: req.body.tscpo,
+        cpo: req.body.cpo,
+        wcpo: req.body.wcpo,
+    };
+    Station.findOneAndUpdate(query, update, { upsert: true }, function(
+        err,
+        doc
+    ) {
+        if (err)
+            return res.status(500).json({ error: err, reason: 'Userfind' });
+        return res.status(200).json({ station: update });
+    });
+}); //end patch
+
+router.delete('/:statId', (req, res, next) => {
+    Station.remove({ _id: req.params.statId })
         .exec()
         .then(result => {
             res.status(200).json({ message: 'Station deleted' });

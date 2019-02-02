@@ -12,19 +12,15 @@ router.get('/', (req, res) => {
 
 router.post('/', CheckAuth, (req, res) => {
     var CurrentDate = moment().toISOString();
-    const opts = {
-        op1: req.body.stat1,
-        op2: req.body.stat2,
-        op3: req.body.stat3,
-    };
-    //     // TODO Done
+    //  TODO Done
     var query = { penno: req.user.penno };
     var genTrans = {
         genTransfer: {
-            op1: opts.op1,
-            op2: opts.op2,
-            op3: opts.op3,
+            op1: req.body.stat1,
+            op2: req.body.stat2,
+            op3: req.body.stat3,
         },
+        reqTransfer: {},
         submitDate: CurrentDate,
     };
 
@@ -51,7 +47,7 @@ router.post('/', CheckAuth, (req, res) => {
                     if (err) return res.status(500).json({ error: err });
                     return res.status(201).json({
                         message: 'Updated station details',
-                        stations: opts,
+                        stations: genTrans.genTransfer,
                     });
                 }
             );

@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
         var stationMap = {};
 
         stations.forEach(function(station) {
-            stationMap[station.statCode] = station;
+            stationMap[station._id] = station;
         });
 
         res.status(200).json({

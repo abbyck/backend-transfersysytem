@@ -1,13 +1,9 @@
 var router = require('express').Router();
 
-// Signup
-router.use('/signup', require('./signup'));
 // Login
 router.use('/login', require('./login'));
 // Firsttime routes
 router.use('/firsttime', require('./firsttime'));
-// List current station
-// router.use('/current', require('./current'));
 // Previous
 router.use('/previous', require('./previous'));
 // Profile
@@ -21,7 +17,7 @@ router.use('/avilablestations', require('./availablestations'));
 // Request transfer
 router.use('/reqtransfer', require('./reqtransfer'));
 // Genral Transfer stats
-router.use('/gentransferstats', require('./gentranstat'));
+// router.use('/gentransferstats', require('./gentranstat'));
 // Genera; Transfer
 router.use('/gentransfer', require('./gentransfer'));
 

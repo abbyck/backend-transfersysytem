@@ -1,7 +1,15 @@
 var router = require('express').Router();
 
-// Signup route
-router.use('/signup', require('./signup'));
+// User Signup route
+router.use('/usersignup', require('./usersignup'));
+//Admin Signup route
+router.use('/adminactions', require('./adminactions'));
+//Admin Password Reset route
+router.use('/adpassreset', require('./adminsetpassword'));
+// Admin Signup route
+router.use('/useractions', require('./useractions'));
+//Admin Password Reset route
+router.use('/uspassreset', require('./usersetpassword'));
 // Login
 router.use('/login', require('./login'));
 // SET PASSWORD
@@ -19,6 +27,8 @@ router.use('/reqlist', require('./reqlist'));
 // Allot Station to user update list
 router.use('/allot', require('./allot'));
 // LIST station vacencies on request(of 3)
-router.use('/returnstation', require('./returnstation'));
+router.use('/returnstation', require('./return'));
+// Search station
+router.use('/searchstation', require('./searchstation'));
 
 module.exports = router;

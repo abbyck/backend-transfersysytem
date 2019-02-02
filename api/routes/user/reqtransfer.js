@@ -11,19 +11,15 @@ router.get('/', (req, res) => {
 
 router.post('/', CheckAuth, (req, res) => {
     var CurrentDate = moment().toISOString();
-    const opts = {
-        op1: req.body.stat1,
-        op2: req.body.stat2,
-        op3: req.body.stat3,
-    };
-    //     // TODO Done
+    // TODO Done
     var query = { penno: req.user.penno };
     var reqTrans = {
         reqTransfer: {
-            op1: opts.op1,
-            op2: opts.op2,
-            op3: opts.op3,
+            op1: req.body.stat1,
+            op2: req.body.stat2,
+            op3: req.body.stat3,
         },
+        genTransfer: {},
         submitDate: CurrentDate,
     };
 
@@ -34,10 +30,11 @@ router.post('/', CheckAuth, (req, res) => {
                 err,
                 doc
             ) {
-                if (err)
+                if (err) {
                     return res
                         .status(500)
                         .json({ error: "couldn't find user", err });
+                }
                 return user;
             });
         })
@@ -50,13 +47,14 @@ router.post('/', CheckAuth, (req, res) => {
                 { $inc: query },
                 { upsert: true },
                 function(err, doc) {
-                    if (err)
+                    if (err) {
                         return res
                             .status(500)
                             .json({ error: "couldn't update station", err });
+                    }
                     return res.status(201).json({
                         message: 'Updated station details',
-                        stations: opts,
+                        stations: reqTrans.reqTransfer,
                     });
                 }
             );

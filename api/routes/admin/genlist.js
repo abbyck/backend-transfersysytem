@@ -7,7 +7,7 @@ router.get('/:designation', (req, res) => {
         .select(
             'name penno designation currentStation prevStation lastTransferDate joinDate reqTransfer genTransfer submitDate'
         )
-        .sort({ joinDate: 'desc' })
+        .sort({ joinDate: 'asc' })
         .then(users => {
             for (var i = 0; i < users.length; i++) {
                 if (

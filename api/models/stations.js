@@ -10,10 +10,12 @@ const StationSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    a1: { type: Number, min: 0 },
-    a2: { type: Number, min: 0 },
-    a3: { type: Number, min: 0 },
-    a4: { type: Number, min: 0 },
+    si: { type: Number, min: 0 },
+    asi: { type: Number, min: 0 },
+    scpo: { type: Number, min: 0 },
+    tscpo: { type: Number, min: 0 },
+    cpo: { type: Number, min: 0 },
+    wcpo: { type: Number, min: 0 },
 });
 
 module.exports = mongoose.model('Station', StationSchema);

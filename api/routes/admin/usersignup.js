@@ -3,7 +3,10 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const User = require('../../models/user');
 
-router.post('/', (req, res, next) => {
+// Auth Check
+const CheckAuth = require('../../middleware/check-auth');
+
+router.post('/', CheckAuth, (req, res, next) => {
     User.find({ penno: req.body.penno })
         .exec()
         .then(user => {

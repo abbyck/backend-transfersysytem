@@ -1,19 +1,15 @@
 const router = require('express').Router();
-const mongoose = require('mongoose');
+
 const Station = require('../../models/stations');
 
-// Auth check
-const CheckAuth = require('../../middleware/check-auth');
-
 router.get('/', (req, res) => {
-    console.log(req.query);
     Promise.all([
-        Station.findOne({ statCode: req.query.current }),
-        Station.findOne({ statCode: req.query.code1 }),
-        Station.findOne({ statCode: req.query.code2 }),
-        Station.findOne({ statCode: req.query.code3 }),
+        Station.findOne({ _id: req.query.current }),
+        Station.findOne({ _id: req.query.code1 }),
+        Station.findOne({ _id: req.query.code2 }),
+        Station.findOne({ _id: req.query.code3 }),
     ]).then(([curr, stat1, stat2, stat3]) => {
-        res.status(200).json({
+        var out = {
             current: {
                 name: curr.name,
                 statCode: curr.statCode,
@@ -34,19 +30,10 @@ router.get('/', (req, res) => {
                 statCode: stat3.statCode,
                 vacancy: stat3[req.query.designation],
             },
-        });
+        };
+        console.log(out);
+        res.status(200).json(out);
     });
-    // Station.find({}, function(err, stations) {
-    //     var stationMap = {};
-
-    //     stations.forEach(function(station) {
-    //         stationMap[station.statCode] = station;
-    //     });
-    //     if (err) {
-    //         return res.status(500).json({
-    //             error: err,
-    //         });
-    //     }
 });
 
 module.exports = router;

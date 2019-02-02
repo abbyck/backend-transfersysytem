@@ -14,7 +14,7 @@ router.get('/', CheckAuth, (req, res) => {
             console.log(result.firsttime);
             if (result.firsttime) {
                 console.log(result);
-                // TODO set the firsttime to false in DB
+                // TODO set the firsttime to false in DB Done
                 User.findOneAndUpdate(
                     { penno: req.user.penno },
                     { firsttime: false },

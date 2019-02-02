@@ -9,8 +9,16 @@ mongoose.connect(
     'mongodb+srv://admin:' +
         process.env.MONGO_PW +
         '@cluster0-4fxo4.mongodb.net/test?retryWrites=true',
-    { useNewUrlParser: true }
+    { useNewUrlParser: true, useCreateIndex: true },
+    err => {
+        if (err) {
+            console.log('DB: Connection Error:' + err);
+        }
+        console.log('DB: Connected Successfully');
+    }
 );
+
+mongoose.set('useCreateIndex', true);
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
