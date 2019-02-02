@@ -11,21 +11,25 @@ router.get('/', (req, res) => {
     ]).then(([curr, stat1, stat2, stat3]) => {
         var out = {
             current: {
+                id: curr._id,
                 name: curr.name,
                 statCode: curr.statCode,
                 vacancy: curr[req.query.designation],
             },
             first: {
+                id: curr._id,
                 name: stat1.name,
                 statCode: stat1.statCode,
                 vacancy: stat1[req.query.designation],
             },
             second: {
+                id: curr._id,
                 name: stat2.name,
                 statCode: stat2.statCode,
                 vacancy: stat2[req.query.designation],
             },
             third: {
+                id: curr._id,
                 name: stat3.name,
                 statCode: stat3.statCode,
                 vacancy: stat3[req.query.designation],
