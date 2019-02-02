@@ -11,6 +11,11 @@ router.get('/:penno', CheckAuth, (req, res, next) => {
         .select('penno name privilege')
         .exec()
         .then(admin => {
+            if (admin === null) {
+                return res.status(200).json({
+                    error: 'Not found',
+                });
+            }
             res.status(200).json({
                 admins: admin,
             });
