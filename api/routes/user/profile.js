@@ -20,6 +20,7 @@ router.get('/', CheckAuth, (req, res) => {
                 return res.status(500).json({ error: err });
             }
             if (result) {
+                console.log(stationMap);
                 var date = new Date('' + result.lastTransferDate);
                 var year = date.getFullYear();
                 var month = date.getMonth() + 1;
@@ -75,7 +76,8 @@ router.get('/', CheckAuth, (req, res) => {
                     opa2 = stationMap[result.genTransfer.op2].name;
                     opa3 = stationMap[result.genTransfer.op3].name;
                 }
-
+                console.log(stationMap[result.prevStation.first].name);
+                console.log(result.prevStation.second);
                 return res.status(200).json({
                     penno: result.penno,
                     name: result.name,

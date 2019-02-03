@@ -17,19 +17,19 @@ router.get('/', (req, res) => {
                 vacancy: curr[req.query.designation],
             },
             first: {
-                id: curr._id,
+                id: stat1._id,
                 name: stat1.name,
                 statCode: stat1.statCode,
                 vacancy: stat1[req.query.designation],
             },
             second: {
-                id: curr._id,
+                id: stat2._id,
                 name: stat2.name,
                 statCode: stat2.statCode,
                 vacancy: stat2[req.query.designation],
             },
             third: {
-                id: curr._id,
+                id: stat3._id,
                 name: stat3.name,
                 statCode: stat3.statCode,
                 vacancy: stat3[req.query.designation],
