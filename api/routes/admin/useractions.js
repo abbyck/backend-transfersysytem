@@ -11,9 +11,15 @@ router.get('/:penno', CheckAuth, (req, res, next) => {
         .select('penno name designation')
         .exec()
         .then(user => {
-            res.status(200).json({
-                user: user,
-            });
+            if (user) {
+                res.status(200).json({
+                    user: user,
+                });
+            } else {
+                res.status(404).json({
+                    error: "Couldn't find any user",
+                });
+            }
         })
         .catch(err => {
             res.status(500).json({
