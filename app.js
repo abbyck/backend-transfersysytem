@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
+const morganBody = require('morgan-body');
 
 // DB connection
 mongoose.connect(
@@ -19,6 +20,8 @@ mongoose.connect(
 );
 
 mongoose.set('useCreateIndex', true);
+
+morganBody(app);
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
